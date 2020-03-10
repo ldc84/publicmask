@@ -26,5 +26,10 @@ export default new Router({
       name: 'Inventory',
       component: () => import('~@/inventory')
     },
+    {
+      path: '/about',
+      name: 'About',
+      component: () => import('~@/about')
+    },
   ]
 })

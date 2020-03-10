@@ -25,11 +25,11 @@
     <v-content id="container">
       <v-breadcrumbs :items="mMenu" id="mNav"></v-breadcrumbs>
       <div id="nav">
-        <v-navigation-drawer floating permanent expand-on-hover width="180">
+        <v-navigation-drawer floating permanent expand-on-hover>
           <v-list>
             <v-list-item link>
               <v-list-item-content>
-                <v-list-item-title class="title">Lee Dongchun</v-list-item-title>
+                <v-list-item-title class="title">Developer</v-list-item-title>
                 <v-list-item-subtitle>goodldc84@gmail.com</v-list-item-subtitle>
               </v-list-item-content>
             </v-list-item>
@@ -56,6 +56,14 @@
                 </i>
               </v-list-item-icon>
               <v-list-item-title>지역별 판매처</v-list-item-title>
+            </v-list-item>
+            <v-list-item link @click="$router.push('/about')">
+              <v-list-item-icon>
+                <i class="material-icons">
+                  info
+                </i>
+              </v-list-item-icon>
+              <v-list-item-title>정보</v-list-item-title>
             </v-list-item>
           </v-list>
         </v-navigation-drawer>
@@ -94,6 +102,11 @@ export default {
         disabled: false,
         to: '/inventory',
       },
+      {
+        text: '정보',
+        disabled: false,
+        to: '/about',
+      },
     ]
   }),
   mounted(){
@@ -129,7 +142,7 @@ export default {
     z-index: 999;
     background-color:rgba(0,0,0,0.5);
   }
-  @media screen and (max-width:768px) {
+  @media screen and (max-width:980px) {
     #mNav {
       display:block;
     }

@@ -1,10 +1,5 @@
 <template>
   <v-container id="store" text-xs-center>
-    <!-- <ul>
-      <li v-for="(store, index) in stores[0]" :key="index">
-        p
-      </li>
-    </ul> -->
     <v-list subheader>
       <v-subheader>총 판매처 : {{ paging.totalCount || '0' }}</v-subheader>
         <v-list-item
