@@ -21,6 +21,7 @@ module.exports = {
           .loader('url-loader')
           .tap(options => Object.assign(options, { limit: 1024000 }))
   },
+  publicPath: process.env.NODE_ENV === 'production' ? '/publicmask/' : '/',
   devServer: {
     proxy: 'https://8oi9s0nnth.apigw.ntruss.com'
   }
