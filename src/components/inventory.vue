@@ -244,7 +244,6 @@ export default {
       }
       axios.get(API_URL+'/storesByAddr/json', {params: params})
         .then(res => {
-          console.log(res);
           this.stores = res.data.stores;
           this.paging.page = parseInt(res.data.page);
           this.paging.totalCount = res.data.totalCount;
