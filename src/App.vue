@@ -142,6 +142,9 @@ export default {
     z-index: 999;
     background-color:rgba(0,0,0,0.5);
   }
+  .logo {
+    filter: contrast(600%);
+  }
   @media screen and (max-width:980px) {
     #mNav {
       display:block;
@@ -151,9 +154,6 @@ export default {
     }
     #contents {
       padding:0;
-    }
-    .logo {
-      filter: contrast(600%);
     }
   }
 </style>
