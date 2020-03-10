@@ -1,2 +1,0 @@
-(window["webpackJsonp"]=window["webpackJsonp"]||[]).push([["chunk-2d0bd8f0"],{"2d08":function(n,e,t){"use strict";t.r(e);var a=function(){var n=this,e=n.$createElement,t=n._self._c||e;return t("v-container",{attrs:{id:"inventory","text-xs-center":""}},[n._v(" 재고 ")])},r=[],c={name:"Store",data:()=>({})},o=c,i=t("2877"),s=t("6544"),u=t.n(s),d=t("a523"),l=Object(i["a"])(o,a,r,!1,null,"1417ac0e",null);e["default"]=l.exports;u()(l,{VContainer:d["a"]})}}]);
-//# sourceMappingURL=chunk-2d0bd8f0.98bb6609.js.map
