@@ -21,11 +21,6 @@ module.exports = {
           .loader('url-loader')
           .tap(options => Object.assign(options, { limit: 1024000 }))
   },
-  pages: {
-    index: {
-      title: '공적 마스크',
-    }
-  },
   devServer: {
     proxy: 'https://8oi9s0nnth.apigw.ntruss.com'
   }
