@@ -85,7 +85,7 @@ export default {
       { icon: 'swap_vert', iconClass: 'deep-purple lighten-3 white--text', title: '공적 마스크 판매 현황 조회 API', url: 'https://app.swaggerhub.com/apis-docs/Promptech/public-mask-info/20200307-oas3' }
     ],
     items3: [
-      { icon: 'face', iconClass: 'deep-purple lighten-3 white--text', title: '이동춘', subtitle: '프론트 개발자' },
+      { icon: 'face', iconClass: 'lime lighten-3 white--text', title: '이동춘', subtitle: '프론트 개발자' },
     ]
   }),
 }
