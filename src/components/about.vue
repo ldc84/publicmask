@@ -46,5 +46,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
+  .v-list-item__subtitle {
+    overflow: visible;
+    text-overflow: inherit;
+    white-space: inherit;
+  }
 </style>
