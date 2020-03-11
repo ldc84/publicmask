@@ -19,6 +19,7 @@
     </v-list>
 
     <v-pagination
+      v-if="paging.totalCount"
       v-model="paging.page"
       prev-icon="keyboard_arrow_left"
       next-icon="keyboard_arrow_right"

@@ -86,6 +86,7 @@ export default {
     ],
     items3: [
       { icon: 'face', iconClass: 'lime lighten-3 white--text', title: '이동춘', subtitle: '프론트 개발자' },
+      { icon: 'mail_outline', iconClass: 'lime lighten-3 white--text', title: '메일', subtitle: 'goodldc84@gmail.com' },
     ]
   }),
 }

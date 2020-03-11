@@ -1,6 +1,6 @@
 <template>
   <v-container id="inventory" text-xs-center>
-    <div>
+    <div class="sales">
       <p class="overline">100개 이상(<span class="green">녹색</span>) / 30개 이상 100개미만(<span class="yellow">노랑색</span>) / 2개 이상 30개 미만(<span class="red">빨강색</span>) / 1개 이하(<span class="grey">회색</span>) / 집계 안됨(<span>흰색</span>)</p>
       <v-select
         :items="addressSel"
@@ -11,6 +11,7 @@
       <div v-if="addressSelChoice == '서울시'">
         <v-btn color="secondary" 
           dark 
+          small
           v-for="(adds, index) in address1"
           :key="index"
           @click="getStoreBy(adds)"
@@ -21,6 +22,7 @@
       <div v-if="addressSelChoice == '경기도'">
         <v-btn color="secondary" 
           dark 
+          small
           v-for="(adds, index) in address2"
           :key="index"
           @click="getStoreBy(adds)"
@@ -31,6 +33,7 @@
       <div v-if="addressSelChoice == '인천광역시'">
         <v-btn color="secondary" 
           dark 
+          small
           v-for="(adds, index) in address3"
           :key="index"
           @click="getStoreBy(adds)"
@@ -41,6 +44,7 @@
       <div v-if="addressSelChoice == '강원도'">
         <v-btn color="secondary" 
           dark 
+          small
           v-for="(adds, index) in address4"
           :key="index"
           @click="getStoreBy(adds)"
@@ -51,6 +55,7 @@
       <div v-if="addressSelChoice == '충청북도'">
         <v-btn color="secondary" 
           dark 
+          small
           v-for="(adds, index) in address5"
           :key="index"
           @click="getStoreBy(adds)"
@@ -61,6 +66,7 @@
       <div v-if="addressSelChoice == '충청남도'">
         <v-btn color="secondary" 
           dark 
+          small
           v-for="(adds, index) in address6"
           :key="index"
           @click="getStoreBy(adds)"
@@ -71,16 +77,16 @@
       <div v-if="addressSelChoice == '세종특별자치시'">
         <v-btn color="secondary" 
           dark 
-          v-for="(adds, index) in address7"
-          :key="index"
-          @click="getStoreBy(adds)"
+          small
+          @click="getStoreBy('세종특별자치시')"
         >
-          {{ adds.split(' ')[1] }}
+          전체보기
         </v-btn>
       </div>
       <div v-if="addressSelChoice == '대전광역시'">
         <v-btn color="secondary" 
           dark 
+          small
           v-for="(adds, index) in address8"
           :key="index"
           @click="getStoreBy(adds)"
@@ -91,6 +97,7 @@
       <div v-if="addressSelChoice == '경상북도'">
         <v-btn color="secondary" 
           dark 
+          small
           v-for="(adds, index) in address9"
           :key="index"
           @click="getStoreBy(adds)"
@@ -101,6 +108,7 @@
       <div v-if="addressSelChoice == '경상남도'">
         <v-btn color="secondary" 
           dark 
+          small
           v-for="(adds, index) in address10"
           :key="index"
           @click="getStoreBy(adds)"
@@ -111,6 +119,7 @@
       <div v-if="addressSelChoice == '대구광역시'">
         <v-btn color="secondary" 
           dark 
+          small
           v-for="(adds, index) in address11"
           :key="index"
           @click="getStoreBy(adds)"
@@ -121,6 +130,7 @@
       <div v-if="addressSelChoice == '울산광역시'">
         <v-btn color="secondary" 
           dark 
+          small
           v-for="(adds, index) in address12"
           :key="index"
           @click="getStoreBy(adds)"
@@ -131,6 +141,7 @@
       <div v-if="addressSelChoice == '전라북도'">
         <v-btn color="secondary" 
           dark 
+          small
           v-for="(adds, index) in address13"
           :key="index"
           @click="getStoreBy(adds)"
@@ -141,6 +152,7 @@
       <div v-if="addressSelChoice == '전라남도'">
         <v-btn color="secondary" 
           dark 
+          small
           v-for="(adds, index) in address14"
           :key="index"
           @click="getStoreBy(adds)"
@@ -151,6 +163,7 @@
       <div v-if="addressSelChoice == '광주광역시'">
         <v-btn color="secondary" 
           dark 
+          small
           v-for="(adds, index) in address15"
           :key="index"
           @click="getStoreBy(adds)"
@@ -161,6 +174,7 @@
       <div v-if="addressSelChoice == '제주특별자치도'">
         <v-btn color="secondary" 
           dark 
+          small
           v-for="(adds, index) in address16"
           :key="index"
           @click="getStoreBy(adds)"
@@ -236,6 +250,9 @@ export default {
     address16: ['제주특별자치도 제주시','제주특별자치도 서귀포시'],
     stores: null
   }),
+  mounted(){
+    if(this.addressSelChoice == '세종특별자치시') this.getStoreBy(this.addressSelChoice)
+  },
   methods: {
     getStoreBy(add){
       globalEvent.$emit('updateLoader', true);
@@ -272,6 +289,12 @@ export default {
 <style lang="scss" scoped>
   button {
     margin:2px;
+  }
+  .sales {
+    > div {
+      display:flex;
+      flex-wrap:wrap;
+    }
   }
   .check {
     display:inline-block;

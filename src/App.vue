@@ -25,7 +25,7 @@
     <v-content id="container">
       <v-breadcrumbs :items="mMenu" id="mNav"></v-breadcrumbs>
       <div id="nav">
-        <v-navigation-drawer floating permanent expand-on-hover>
+        <v-navigation-drawer floating permanent expand-on-hover width="220">
           <v-list>
             <v-list-item link>
               <v-list-item-content>
@@ -44,18 +44,18 @@
             <v-list-item link @click="$router.push('/')">
               <v-list-item-icon>
                 <i class="material-icons">
-                  storefront
-                </i>
-              </v-list-item-icon>
-              <v-list-item-title>전체 판매처</v-list-item-title>
-            </v-list-item>
-            <v-list-item link @click="$router.push('/inventory')">
-              <v-list-item-icon>
-                <i class="material-icons">
                   move_to_inbox
                 </i>
               </v-list-item-icon>
               <v-list-item-title>지역별 판매처</v-list-item-title>
+            </v-list-item>
+            <v-list-item link @click="$router.push('/store')">
+              <v-list-item-icon>
+                <i class="material-icons">
+                  storefront
+                </i>
+              </v-list-item-icon>
+              <v-list-item-title>전체 판매처</v-list-item-title>
             </v-list-item>
             <v-list-item link @click="$router.push('/about')">
               <v-list-item-icon>
@@ -93,14 +93,14 @@ export default {
     overlay: false,
     mMenu: [
       {
-        text: '전체 판매처',
+        text: '지역별 판매처',
         disabled: false,
         to: '/',
       },
       {
-        text: '지역별 판매처',
+        text: '전체 판매처',
         disabled: false,
-        to: '/inventory',
+        to: '/store',
       },
       {
         text: '정보',
@@ -118,6 +118,7 @@ export default {
 </script>
 <style lang="scss" scoped>
   /* * {padding:0; margin:0;} */
+  @import url('./assets/style.scss');
   #mNav {
     display:none;
   }
@@ -125,6 +126,7 @@ export default {
     position:fixed;
     top:56px;
     bottom:0;
+    border-right:1px solid rgba(0, 0, 0, 0.12);
     z-index:2;
   }
   #contents {

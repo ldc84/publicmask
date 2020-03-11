@@ -23,6 +23,6 @@ module.exports = {
   },
   publicPath: process.env.NODE_ENV === 'production' ? '/publicmask/' : '/',
   devServer: {
-    proxy: 'https://8oi9s0nnth.apigw.ntruss.com'
+    proxy: 'https://8oi9s0nnth.apigw.ntruss.com/corona19-masks/v1'
   }
 }

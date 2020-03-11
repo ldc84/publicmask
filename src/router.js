@@ -18,13 +18,13 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'Store',
-      component: () => import('~@/store')
-    },
-    {
-      path: '/inventory',
       name: 'Inventory',
       component: () => import('~@/inventory')
+    },
+    {
+      path: '/store',
+      name: 'Store',
+      component: () => import('~@/store')
     },
     {
       path: '/about',
