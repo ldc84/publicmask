@@ -78,7 +78,7 @@
     </v-content>
 
     <div class="loader" v-if="overlay">
-      <v-progress-circular indeterminate size="64"></v-progress-circular>
+      <v-progress-circular indeterminate size="64" color="#fff"></v-progress-circular>
     </div>
 
   </v-app>

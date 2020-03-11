@@ -191,6 +191,8 @@
           <v-list-item-content>
             <v-list-item-title>{{ store.name }} <span class="check" :class="getColor(store.remain_stat)"></span></v-list-item-title>
             <v-list-item-subtitle v-text="store.addr"></v-list-item-subtitle>
+            <v-list-item-subtitle><span class="time">입고시간 : {{ store.stock_at || '-' }}</span></v-list-item-subtitle>
+            <v-list-item-subtitle><span class="time">데이터생성일자 : {{ store.created_at || '-' }}</span></v-list-item-subtitle>
           </v-list-item-content>
           <v-list-item-icon @click="getGoogleMap(store.lat, store.lng)">
             <i class="material-icons">
@@ -296,12 +298,23 @@ export default {
       flex-wrap:wrap;
     }
   }
-  .check {
-    display:inline-block;
-    width:10px;
-    height:10px;
-    margin-top:-4px;
-    border-radius:50%;
-    vertical-align: middle;
+  .v-list {
+    margin-top:20px;
+    padding-top:5px;
+    border-top:1px solid rgba(0, 0, 0, 0.2);
+    border-radius:0;
+    .check {
+      display:inline-block;
+      width:10px;
+      height:10px;
+      margin-top:-4px;
+      border-radius:50%;
+      vertical-align: middle;
+    }
+    .time {
+      color:#999;
+      font-size:11px;
+      line-height:1.2;
+    }
   }
 </style>
