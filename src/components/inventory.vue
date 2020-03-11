@@ -183,7 +183,7 @@
         </v-btn>
       </div>
     </div>
-    <v-list subheader>
+    <v-list subheader v-if="stores">
         <v-list-item
           v-for="(store, index) in stores"
           :key="index"
