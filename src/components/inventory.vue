@@ -183,7 +183,7 @@
         </v-btn>
       </div>
     </div>
-    <v-list subheader v-if="stores">
+    <v-list class="data-ilst" subheader v-if="stores">
         <v-list-item
           v-for="(store, index) in stores"
           :key="index"
@@ -298,7 +298,7 @@ export default {
       flex-wrap:wrap;
     }
   }
-  .v-list {
+  .data-ilst {
     margin-top:20px;
     padding-top:5px;
     border-top:1px solid rgba(0, 0, 0, 0.2);
