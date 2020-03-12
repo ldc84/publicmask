@@ -254,7 +254,71 @@
         </v-btn>
       </div>
     </div>
-    <v-list class="data-ilst" subheader v-if="stores">
+    <div class="sorting" v-if="stores">
+      <v-chip
+        class="ma-1"
+        color="green"
+        label
+        text-color="white"
+        link
+        @click="getSortList('plenty')"
+      >
+        <v-icon left>insert_emoticon</v-icon>
+        <span>100개이상</span>
+      </v-chip>
+      <v-chip
+        class="ma-1"
+        color="yellow"
+        label
+        text-color="white"
+        link
+        @click="getSortList('some')"
+      >
+        <v-icon left>sentiment_satisfied_alt</v-icon>
+        <span>100개미만</span>
+      </v-chip>
+      <v-chip
+        class="ma-1"
+        color="red"
+        label
+        text-color="white"
+        link
+        @click="getSortList('few')"
+      >
+        <v-icon left>sentiment_dissatisfied</v-icon>
+        <span>30개미만</span>
+      </v-chip>
+      <v-chip
+        class="ma-1"
+        color="grey"
+        label
+        text-color="white"
+        link
+        @click="getSortList('empty')"
+      >
+        <v-icon left>sentiment_very_dissatisfied</v-icon>
+        <span>1개이하</span>
+      </v-chip>
+    </div>
+    <v-list class="data-list sort-list" subheader v-if="sortList.length">
+        <v-list-item
+          v-for="(store, index) in sortList"
+          :key="index"
+        >
+          <v-list-item-content>
+            <v-list-item-title>{{ store.name }} <span class="check" :class="getColor(store.remain_stat)"></span></v-list-item-title>
+            <v-list-item-subtitle v-text="store.addr"></v-list-item-subtitle>
+            <v-list-item-subtitle><span class="time">입고시간 : {{ store.stock_at || '-' }}</span></v-list-item-subtitle>
+            <v-list-item-subtitle><span class="time">데이터생성일자 : {{ store.created_at || '-' }}</span></v-list-item-subtitle>
+          </v-list-item-content>
+          <v-list-item-icon @click="getGoogleMap(store.lat, store.lng)">
+            <i class="material-icons">
+              add_location
+            </i>
+          </v-list-item-icon>
+        </v-list-item>
+    </v-list>
+    <v-list class="data-list store-list" subheader v-if="stores">
         <v-list-item
           v-for="(store, index) in stores"
           :key="index"
@@ -279,6 +343,7 @@
 import axios from 'axios';
 import { API_URL } from '^@/API';
 import { globalEvent } from '^@/event';
+import _ from 'lodash';
 export default {
   name: 'Sales',
   data: () => ({
@@ -287,6 +352,29 @@ export default {
       length: 5,
       totalCount: null
     },
+    sorting: [
+      {
+        color: 'green',
+        icon: 'insert_emoticon',
+        text: '100개 이상',
+      },
+      {
+        color: 'yellow',
+        icon: 'sentiment_satisfied_alt',
+        text: '100개 미만',
+      },
+      {
+        color: 'red',
+        icon: 'sentiment_dissatisfied',
+        text: '30개 미만',
+      },
+      {
+        color: 'grey',
+        icon: 'sentiment_very_dissatisfied',
+        text: '1개 이하',
+      }
+    ],
+    sortList: [],
     addressSel: ['서울시', '경기도 성남시', '경기도 용인시', '경기도 수원시', '경기도 고양시', '경기도 안양시', '경기도 안산시', '경기도 그 외', '인천광역시', '강원도', '충청북도', '충청남도', '세종특별자치시', '대전광역시', '경상북도', '경상남도','대구광역시','울산광역시','전라북도','전라남도','광주광역시','제주특별자치도'],
     addressSelChoice:'',
     // 서울
@@ -341,6 +429,9 @@ export default {
   methods: {
     getStoreBy(add){
       globalEvent.$emit('updateLoader', true);
+      this.sortList = [];
+      const storeList = document.querySelector('.store-list');
+      if(storeList) storeList.classList = 'data-list store-list'
       const params = {
         address: add,
       }
@@ -366,6 +457,16 @@ export default {
     },
     getGoogleMap(lat, lng){
       window.open(`https://www.google.com/maps?q=${lat},${lng}&ll=${lat},${lng}&z=18`)
+    },
+    getSortList(stat){
+      this.sortList = [];
+      const storeList = document.querySelector('.store-list');
+      storeList.classList = 'data-list store-list hide'
+      _.map(this.stores, (store)=>{
+        if(store.remain_stat == stat) {
+          this.sortList.push(store)
+        }
+      })
     }
   }
 }
@@ -381,11 +482,23 @@ export default {
       flex-wrap:wrap;
     }
   }
-  .data-ilst {
+  .sorting {
+    display:flex;
+    justify-content: space-between;
+    margin-top:20px;
+    .v-chip {
+      width:100%;
+      justify-content: center;
+    }
+  }
+  .data-list {
     margin-top:20px;
     padding-top:5px;
     border-top:1px solid rgba(0, 0, 0, 0.2);
     border-radius:0;
+    &.hide {
+      display:none;
+    }
     .check {
       display:inline-block;
       width:10px;
@@ -398,6 +511,19 @@ export default {
       color:#999;
       font-size:11px;
       line-height:1.2;
+    }
+  }
+  @media screen and (max-width:980px) {
+    .sorting {
+      .v-chip {
+        padding:0 15px;
+        span {
+          display:none;
+        }
+        .v-icon--left {
+          margin:0;
+        }
+      }
     }
   }
 </style>
