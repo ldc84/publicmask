@@ -300,24 +300,26 @@
         <span>1개이하</span>
       </v-chip>
     </div>
-    <v-list class="data-list sort-list" subheader v-if="sortList.length">
-        <v-list-item
-          v-for="(store, index) in sortList"
-          :key="index"
-        >
-          <v-list-item-content>
-            <v-list-item-title>{{ store.name }} <span class="check" :class="getColor(store.remain_stat)"></span></v-list-item-title>
-            <v-list-item-subtitle v-text="store.addr"></v-list-item-subtitle>
-            <v-list-item-subtitle><span class="time">입고시간 : {{ store.stock_at || '-' }}</span></v-list-item-subtitle>
-            <v-list-item-subtitle><span class="time">데이터생성일자 : {{ store.created_at || '-' }}</span></v-list-item-subtitle>
-          </v-list-item-content>
-          <v-list-item-icon @click="getGoogleMap(store.lat, store.lng)">
-            <i class="material-icons">
-              add_location
-            </i>
-          </v-list-item-icon>
-        </v-list-item>
-    </v-list>
+    <v-slide-x-transition mode="out-in">
+      <v-list class="data-list sort-list" subheader v-if="sortList.length" :key="sortList.length">
+          <v-list-item
+            v-for="(store, index) in sortList"
+            :key="index"
+          >
+            <v-list-item-content>
+              <v-list-item-title>{{ store.name }} <span class="check" :class="getColor(store.remain_stat)"></span></v-list-item-title>
+              <v-list-item-subtitle v-text="store.addr"></v-list-item-subtitle>
+              <v-list-item-subtitle><span class="time">입고시간 : {{ store.stock_at || '-' }}</span></v-list-item-subtitle>
+              <v-list-item-subtitle><span class="time">데이터생성일자 : {{ store.created_at || '-' }}</span></v-list-item-subtitle>
+            </v-list-item-content>
+            <v-list-item-icon @click="getGoogleMap(store.lat, store.lng)">
+              <i class="material-icons">
+                add_location
+              </i>
+            </v-list-item-icon>
+          </v-list-item>
+      </v-list>
+    </v-slide-x-transition>
     <v-list class="data-list store-list" subheader v-if="stores">
         <v-list-item
           v-for="(store, index) in stores"
