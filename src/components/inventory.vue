@@ -6,7 +6,7 @@
         :items="addressSel"
         v-model="addressSelChoice"
         label="지역선택"
-        @change="stores = null"
+        @change="getSelected"
       ></v-select>
       <div v-if="addressSelChoice == '서울시'">
         <v-btn color="secondary" 
@@ -254,6 +254,9 @@
         </v-btn>
       </div>
     </div>
+    <h3 class="mt-5" v-if="addTitle">
+      {{ addTitle }}
+    </h3>
     <div class="sorting" v-if="stores">
       <v-chip
         class="ma-1"
@@ -377,6 +380,7 @@ export default {
       }
     ],
     sortList: [],
+    addTitle: null,
     addressSel: ['서울시', '경기도 성남시', '경기도 용인시', '경기도 수원시', '경기도 고양시', '경기도 안양시', '경기도 안산시', '경기도 그 외', '인천광역시', '강원도', '충청북도', '충청남도', '세종특별자치시', '대전광역시', '경상북도', '경상남도','대구광역시','울산광역시','전라북도','전라남도','광주광역시','제주특별자치도'],
     addressSelChoice:'',
     // 서울
@@ -425,15 +429,17 @@ export default {
     address16: ['제주특별자치도 제주시','제주특별자치도 서귀포시'],
     stores: null
   }),
-  mounted(){
-    if(this.addressSelChoice == '세종특별자치시') this.getStoreBy(this.addressSelChoice)
-  },
   methods: {
+    getSelected(){
+      this.stores = null
+      this.addTitle = null;
+    },
     getStoreBy(add){
       globalEvent.$emit('updateLoader', true);
       this.sortList = [];
       const storeList = document.querySelector('.store-list');
-      if(storeList) storeList.classList = 'data-list store-list'
+      if(storeList) storeList.classList = 'data-list store-list';
+      this.addTitle = add;
       const params = {
         address: add,
       }
@@ -491,6 +497,18 @@ export default {
     .v-chip {
       width:100%;
       justify-content: center;
+    }
+  }
+  .total-map {
+    margin-left:10px;
+    color:grey;
+    font-size:12px;
+    vertical-align: middle;
+    text-decoration: underline;
+    cursor:pointer;
+    .material-icons {
+      margin-top:-2px;
+      vertical-align: middle;
     }
   }
   .data-list {
