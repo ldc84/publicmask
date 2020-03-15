@@ -256,7 +256,7 @@
     </div>
     <h3 class="mt-5" v-if="addTitle">
       {{ addTitle }}
-      <span class="total-map" @click="getMap">
+      <span class="total-map" @click="getMap(stores)">
         해당 지역 지도로 모두 보기
         <i class="material-icons">
           add_location
@@ -494,10 +494,11 @@ export default {
           this.sortList.push(store)
         }
       })
+      this.getMap(this.sortList);
     },
-    getMap(){
+    getMap(target){
       this.mapClass = true;
-      var stores = this.stores;
+      var stores = target;
       var map = this.map;
       var kakaomaps = window.kakao.maps;
       var mapContainer = document.getElementById('map'), // 지도를 표시할 div  
