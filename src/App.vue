@@ -82,8 +82,17 @@
     </div>
 
     <!-- snackbar -->
-    <v-snackbar v-model="snackbar.show" :color="snackbar.color" :timeout="3000">
+    <v-snackbar v-model="snackbar.show" :color="snackbar.color" :timeout="2500">
       {{ snackbar.text }}
+      <v-btn
+        color="pink"
+        text
+        @click="snackbar.show = false"
+      >
+        <i class="material-icons">
+          close
+        </i>
+      </v-btn>
     </v-snackbar>
     <!-- //snackbar -->
 

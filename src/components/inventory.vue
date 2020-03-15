@@ -487,6 +487,7 @@ export default {
       window.open(`https://www.google.com/maps?q=${lat},${lng}&ll=${lat},${lng}&z=18`)
     },
     getSortList(stat){
+      const sortListOld = this.sortList;
       this.sortList = [];
       const storeList = document.querySelector('.store-list');
       storeList.classList = 'data-list store-list hide'
@@ -497,6 +498,7 @@ export default {
       })
       if(this.sortList.length <= 0) {
         globalEvent.$emit('updateComent', '해당 목록이 없습니다.');
+        this.sortList = sortListOld;
         return
       }
       this.getMap(this.sortList);
@@ -504,6 +506,11 @@ export default {
     getMap(target){
       this.mapClass = true;
       var stores = target;
+      if(target == this.stores){
+        this.sortList = [];
+        const storeList = document.querySelector('.store-list');
+        storeList.classList = 'data-list store-list'
+      }
       var map = this.map;
       var kakaomaps = window.kakao.maps;
       var mapContainer = document.getElementById('map'), // 지도를 표시할 div  
