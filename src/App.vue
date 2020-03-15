@@ -81,6 +81,12 @@
       <v-progress-circular indeterminate size="64" color="#fff"></v-progress-circular>
     </div>
 
+    <!-- snackbar -->
+    <v-snackbar v-model="snackbar.show" :color="snackbar.color" :timeout="3000">
+      {{ snackbar.text }}
+    </v-snackbar>
+    <!-- //snackbar -->
+
   </v-app>
 </template>
 
@@ -91,6 +97,11 @@ export default {
 
   data: () => ({
     overlay: false,
+    snackbar: {
+      show: false,
+      color: null,
+      text: null
+    },
     mMenu: [
       {
         text: '지역별 판매처',
@@ -112,6 +123,11 @@ export default {
   mounted(){
     globalEvent.$on('updateLoader', (bool) => {
       this.overlay = bool;
+    });
+    globalEvent.$on('updateComent', (msg, color) => {
+      this.snackbar.show = true;
+      this.snackbar.text = msg;
+      this.snackbar.color = color;
     });
   }
 };

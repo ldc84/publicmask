@@ -448,7 +448,8 @@ export default {
   }),
   methods: {
     getSelected(){
-      this.stores = null
+      this.stores = null;
+      this.sortList = [];
       this.addTitle = null;
       this.mapClass = false;
     },
@@ -494,6 +495,10 @@ export default {
           this.sortList.push(store)
         }
       })
+      if(this.sortList.length <= 0) {
+        globalEvent.$emit('updateComent', '해당 목록이 없습니다.');
+        return
+      }
       this.getMap(this.sortList);
     },
     getMap(target){
@@ -504,7 +509,7 @@ export default {
       var mapContainer = document.getElementById('map'), // 지도를 표시할 div  
           mapOption = { 
             center: new kakaomaps.LatLng(stores[0].lat, stores[0].lng), // 지도의 중심좌표
-            level: 6 // 지도의 확대 레벨
+            level: 7 // 지도의 확대 레벨
       };
       map = new kakaomaps.Map(mapContainer, mapOption); // 지도를 생성합니다
       var geocoder = new kakaomaps.services.Geocoder();
