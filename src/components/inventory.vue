@@ -312,6 +312,9 @@
         <span>1개이하</span>
       </v-chip>
     </div>
+    <p class="overline m-only ml-1">
+      해당 수량 아이콘 클릭시 지도에 표시됩니다.
+    </p>
     <v-slide-x-transition mode="out-in">
       <v-list class="data-list sort-list" subheader v-if="sortList.length" :key="sortList[0].lat">
           <v-list-item
@@ -553,10 +556,11 @@ export default {
         });
         marker.setMap(map);
         var infowindow = new kakaomaps.InfoWindow({
-          content: `<div class="overline font-weight-medium" style="width:auto; padding:5px; border:none;">${stores[i].name}<span class="overline" style="color:#999; font-size:11px;">(${maskState})</span></div>`
+          content: `<div class="overline font-weight-medium" style="width:auto; padding:5px; border:none;">${stores[i].name}<span class="overline" style="color:#999; font-size:11px;">(${maskState})</span></div>`,
+          removable: true
         });
-        kakaomaps.event.addListener(marker, 'mouseover', this.markerOver(map, marker, infowindow));
-        kakaomaps.event.addListener(marker, 'mouseout', this.markerClose(infowindow));
+        kakaomaps.event.addListener(marker, 'click', this.markerOver(map, marker, infowindow));
+        // kakaomaps.event.addListener(marker, 'mouseout', this.markerClose(infowindow));
       }
     },
     markerOver(map, marker, infowindow){
@@ -564,11 +568,11 @@ export default {
         infowindow.open(map, marker);
       }
     },
-    markerClose(infowindow){
-      return ()=> {
-        infowindow.close();
-      }
-    }
+    // markerClose(infowindow){
+    //   return ()=> {
+    //     infowindow.close();
+    //   }
+    // }
   }
 }
 </script>
@@ -640,6 +644,9 @@ export default {
       height:400px;
     }
   }
+  .m-only {
+    display:none;
+  }
   @media screen and (max-width:980px) {
     .sorting {
       .v-chip {
@@ -651,6 +658,9 @@ export default {
           margin:0;
         }
       }
+    }
+    .m-only {
+      display:block;
     }
   }
 </style>
