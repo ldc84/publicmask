@@ -312,7 +312,7 @@
         <span>1개이하</span>
       </v-chip>
     </div>
-    <p class="overline m-only ml-1">
+    <p class="overline m-only ml-1" v-if="stores">
       해당 수량 아이콘 클릭시 지도에 표시됩니다.
     </p>
     <v-slide-x-transition mode="out-in">
