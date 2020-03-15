@@ -367,6 +367,7 @@ import marker5 from '*@/icon_loca05.png'
 export default {
   name: 'Sales',
   data: () => ({
+    map: null,
     mapClass: false,
     paging: {
       page:1,
@@ -497,13 +498,14 @@ export default {
     getMap(){
       this.mapClass = true;
       var stores = this.stores;
+      var map = this.map;
       var kakaomaps = window.kakao.maps;
       var mapContainer = document.getElementById('map'), // 지도를 표시할 div  
           mapOption = { 
             center: new kakaomaps.LatLng(stores[0].lat, stores[0].lng), // 지도의 중심좌표
             level: 6 // 지도의 확대 레벨
       };
-      var map = new kakaomaps.Map(mapContainer, mapOption); // 지도를 생성합니다
+      map = new kakaomaps.Map(mapContainer, mapOption); // 지도를 생성합니다
       var geocoder = new kakaomaps.services.Geocoder();
       geocoder.addressSearch(this.addTitle, (result, status)=> {
         if (status === kakaomaps.services.Status.OK) {
@@ -514,16 +516,22 @@ export default {
       var imageSize = new kakaomaps.Size(20, 28);
       for (var i = 0; i < stores.length; i ++) {
         var imageSrc;
+        var maskState;
         if(stores[i].remain_stat == 'plenty'){
           imageSrc = marker1;
+          maskState = '100개이상'
         }else if(stores[i].remain_stat == 'some'){
           imageSrc = marker2;
+          maskState = '30개이상'
         }else if(stores[i].remain_stat == 'few'){
           imageSrc = marker3;
+          maskState = '30개미만'
         }else if(stores[i].remain_stat == 'empty'){
           imageSrc = marker4;
+          maskState = '1개이하'
         }else {
           imageSrc = marker5;
+          maskState = '집계안됨'
         }
         var marker = new kakaomaps.Marker({
           map: map, // 마커를 표시할 지도
@@ -532,7 +540,7 @@ export default {
         });
         marker.setMap(map);
         var infowindow = new kakaomaps.InfoWindow({
-          content: `<div class="overline font-weight-medium" style="width:auto; padding:5px; border:none;">${stores[i].name}</div>`
+          content: `<div class="overline font-weight-medium" style="width:auto; padding:5px; border:none;">${stores[i].name}<span class="overline" style="color:#999; font-size:11px;">(${maskState})</span></div>`
         });
         kakaomaps.event.addListener(marker, 'mouseover', this.markerOver(map, marker, infowindow));
         kakaomaps.event.addListener(marker, 'mouseout', this.markerClose(infowindow));
