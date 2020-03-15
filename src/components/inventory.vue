@@ -256,7 +256,16 @@
     </div>
     <h3 class="mt-5" v-if="addTitle">
       {{ addTitle }}
+      <span class="total-map" @click="getMap">
+        해당 지역 지도로 모두 보기
+        <i class="material-icons">
+          add_location
+        </i>
+      </span>
     </h3>
+    <div class="mapArea" :class="{'active': mapClass}">
+      <div id="map"></div>
+    </div>
     <div class="sorting" v-if="stores">
       <v-chip
         class="ma-1"
@@ -304,7 +313,7 @@
       </v-chip>
     </div>
     <v-slide-x-transition mode="out-in">
-      <v-list class="data-list sort-list" subheader v-if="sortList.length" :key="sortList.length">
+      <v-list class="data-list sort-list" subheader v-if="sortList.length" :key="sortList[0].lat">
           <v-list-item
             v-for="(store, index) in sortList"
             :key="index"
@@ -315,11 +324,11 @@
               <v-list-item-subtitle><span class="time">입고시간 : {{ store.stock_at || '-' }}</span></v-list-item-subtitle>
               <v-list-item-subtitle><span class="time">데이터생성일자 : {{ store.created_at || '-' }}</span></v-list-item-subtitle>
             </v-list-item-content>
-            <v-list-item-icon @click="getGoogleMap(store.lat, store.lng)">
+            <!-- <v-list-item-icon @click="getGoogleMap(store.lat, store.lng)">
               <i class="material-icons">
                 add_location
               </i>
-            </v-list-item-icon>
+            </v-list-item-icon> -->
           </v-list-item>
       </v-list>
     </v-slide-x-transition>
@@ -334,11 +343,11 @@
             <v-list-item-subtitle><span class="time">입고시간 : {{ store.stock_at || '-' }}</span></v-list-item-subtitle>
             <v-list-item-subtitle><span class="time">데이터생성일자 : {{ store.created_at || '-' }}</span></v-list-item-subtitle>
           </v-list-item-content>
-          <v-list-item-icon @click="getGoogleMap(store.lat, store.lng)">
+          <!-- <v-list-item-icon @click="getGoogleMap(store.lat, store.lng)">
             <i class="material-icons">
               add_location
             </i>
-          </v-list-item-icon>
+          </v-list-item-icon> -->
         </v-list-item>
     </v-list>
   </v-container>
@@ -349,9 +358,16 @@ import axios from 'axios';
 import { API_URL } from '^@/API';
 import { globalEvent } from '^@/event';
 import _ from 'lodash';
+import marker1 from '*@/icon_loca01.png'
+import marker2 from '*@/icon_loca02.png'
+import marker3 from '*@/icon_loca03.png'
+import marker4 from '*@/icon_loca04.png'
+import marker5 from '*@/icon_loca05.png'
+
 export default {
   name: 'Sales',
   data: () => ({
+    mapClass: false,
     paging: {
       page:1,
       length: 5,
@@ -433,10 +449,12 @@ export default {
     getSelected(){
       this.stores = null
       this.addTitle = null;
+      this.mapClass = false;
     },
     getStoreBy(add){
       globalEvent.$emit('updateLoader', true);
       this.sortList = [];
+      this.mapClass = false;
       const storeList = document.querySelector('.store-list');
       if(storeList) storeList.classList = 'data-list store-list';
       this.addTitle = add;
@@ -475,6 +493,60 @@ export default {
           this.sortList.push(store)
         }
       })
+    },
+    getMap(){
+      this.mapClass = true;
+      var stores = this.stores;
+      var kakaomaps = window.kakao.maps;
+      var mapContainer = document.getElementById('map'), // 지도를 표시할 div  
+          mapOption = { 
+            center: new kakaomaps.LatLng(stores[0].lat, stores[0].lng), // 지도의 중심좌표
+            level: 6 // 지도의 확대 레벨
+      };
+      var map = new kakaomaps.Map(mapContainer, mapOption); // 지도를 생성합니다
+      var geocoder = new kakaomaps.services.Geocoder();
+      geocoder.addressSearch(this.addTitle, (result, status)=> {
+        if (status === kakaomaps.services.Status.OK) {
+          var coords = new kakaomaps.LatLng(result[0].y, result[0].x);
+          map.setCenter(coords);
+        }
+      })
+      var imageSize = new kakaomaps.Size(20, 28);
+      for (var i = 0; i < stores.length; i ++) {
+        var imageSrc;
+        if(stores[i].remain_stat == 'plenty'){
+          imageSrc = marker1;
+        }else if(stores[i].remain_stat == 'some'){
+          imageSrc = marker2;
+        }else if(stores[i].remain_stat == 'few'){
+          imageSrc = marker3;
+        }else if(stores[i].remain_stat == 'empty'){
+          imageSrc = marker4;
+        }else {
+          imageSrc = marker5;
+        }
+        var marker = new kakaomaps.Marker({
+          map: map, // 마커를 표시할 지도
+          position: new kakaomaps.LatLng(stores[i].lat, stores[i].lng),
+          image: new kakaomaps.MarkerImage(imageSrc, imageSize)
+        });
+        marker.setMap(map);
+        var infowindow = new kakaomaps.InfoWindow({
+          content: `<div class="overline font-weight-medium" style="width:auto; padding:5px; border:none;">${stores[i].name}</div>`
+        });
+        kakaomaps.event.addListener(marker, 'mouseover', this.markerOver(map, marker, infowindow));
+        kakaomaps.event.addListener(marker, 'mouseout', this.markerClose(infowindow));
+      }
+    },
+    markerOver(map, marker, infowindow){
+      return ()=> {
+        infowindow.open(map, marker);
+      }
+    },
+    markerClose(infowindow){
+      return ()=> {
+        infowindow.close();
+      }
     }
   }
 }
@@ -531,6 +603,20 @@ export default {
       color:#999;
       font-size:11px;
       line-height:1.2;
+    }
+  }
+  .mapArea {
+    height:0;
+    opacity: 0;
+    overflow: hidden;
+    transition:all .3s ease-in-out;
+    &.active {
+      height:400px;
+      opacity:1;
+    }
+    #map {
+      width:100%;
+      height:400px;
     }
   }
   @media screen and (max-width:980px) {
