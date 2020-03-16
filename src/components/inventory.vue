@@ -530,7 +530,7 @@ export default {
           map.setCenter(coords);
         }
       })
-      var imageSize = new kakaomaps.Size(20, 28);
+      var imageSize = new kakaomaps.Size(28, 34);
       for (var i = 0; i < stores.length; i ++) {
         var imageSrc;
         var maskState;
