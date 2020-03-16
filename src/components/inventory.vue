@@ -372,6 +372,7 @@ export default {
   data: () => ({
     map: null,
     mapClass: false,
+    infowindow: [],
     paging: {
       page:1,
       length: 5,
@@ -559,12 +560,16 @@ export default {
           content: `<div class="overline font-weight-medium" style="width:auto; padding:5px; border:none;">${stores[i].name}<span class="overline" style="color:#999; font-size:11px;">(${maskState})</span></div>`,
           removable: true
         });
+        this.infowindow.push(infowindow);
         kakaomaps.event.addListener(marker, 'click', this.markerOver(map, marker, infowindow));
         // kakaomaps.event.addListener(marker, 'mouseout', this.markerClose(infowindow));
       }
     },
     markerOver(map, marker, infowindow){
       return ()=> {
+        _.map(this.infowindow, (info)=>{
+          info.close();
+        })
         infowindow.open(map, marker);
       }
     },
